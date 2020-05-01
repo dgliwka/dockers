@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  notebook:
+    container_name: notebook
+    environment:
+      - CHOWN_HOME=yes
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - notebook:/home/jovyan/
+    image: jupyter/datascience-notebook
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.notebook.rule=HostRegexp(`notebook.{domain:[a-z]+}.{tld:[a-z]+}`)
+      - traefik.http.services.notebook.loadbalancer.server.port=8888
+    networks:
+      - traefik
+    command: start-notebook.sh --NotebookApp.password=${PW_HASH}
+volumes:
+  notebook:
+networks:
+  traefik:
+    external: true

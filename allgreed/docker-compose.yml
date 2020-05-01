@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  allgreed-notebook:
+    container_name: allgreed-notebook
+    environment:
+      - CHOWN_HOME=yes
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - allgreed:/home/jovyan/work
+    image: jupyter/datascience-notebook
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.r.rule=HostRegexp(`allgreed.{domain:[a-z]+}.{tld:[a-z]+}`)
+      - traefik.http.services.r.loadbalancer.server.port=8888
+    networks:
+      - traefik
+    command: start-notebook.sh --NotebookApp.password=${PW_HASH}
+volumes:
+  allgreed:
+networks:
+  traefik:
+    external: true
