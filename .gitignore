@@ -1,2 +1,5 @@
 pihole/config
 .env
+ipfs/data
+ipfs/export
+ovpn/open

@@ -1,14 +1,14 @@
-version: '3.3'
+version: "3.3"
 services:
-    nginx-demo:
-        container_name: nginx
-        image: nginxdemos/hello
-        networks:
-          - traefik
-        restart: unless-stopped
-        labels:
-          - traefik.enable=true
-          - traefik.http.routers.nginx.rule=HostRegexp(`nginx.{domain:[a-z]+}.{tld:[a-z]+}`)
+  nginx-demo:
+    container_name: nginx
+    image: nginxdemos/hello
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nginx.rule=HostRegexp(`nginx.{domain:[a-z]+}.{tld:[a-z]+}`)
 networks:
   traefik:
     external: true
