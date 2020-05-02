@@ -8,6 +8,7 @@ services:
     volumes:
       - notebook:/home/jovyan/
     image: jupyter/datascience-notebook
+    restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.notebook.rule=HostRegexp(`notebook.{domain:[a-z]+}.{tld:[a-z]+}`)

@@ -5,10 +5,10 @@ services:
         image: nginxdemos/hello
         networks:
           - traefik
+        restart: unless-stopped
         labels:
           - traefik.enable=true
           - traefik.http.routers.nginx.rule=HostRegexp(`nginx.{domain:[a-z]+}.{tld:[a-z]+}`)
-
 networks:
   traefik:
     external: true

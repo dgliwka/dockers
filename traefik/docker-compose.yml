@@ -2,19 +2,23 @@ version: "3.3"
 
 services:
   traefik:
-    image: "traefik"
-    container_name: "traefik"
+    image: traefik
+    container_name: traefik
     command:
-      #- "--log.level=DEBUG"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
     ports:
-      - "80:80"
-      - "8080:8080"
+      - 80:80
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - traefik
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=HostRegexp(`traefik.{domain:[a-z]+}.{tld:[a-z]+}`)
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
 networks:
   traefik:
     external: true

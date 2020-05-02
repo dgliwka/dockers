@@ -15,6 +15,7 @@ services:
     networks:
       - traefik
     command: start-notebook.sh --NotebookApp.password=${PW_HASH}
+    restart: unless-stopped
 volumes:
   allgreed:
 networks:

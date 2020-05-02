@@ -1,0 +1,23 @@
+version: "3"
+services:
+  ipfs:
+    container_name: ipfs
+    image: ipfs/go-ipfs:latest
+    hostname: ipfs
+    ports:
+      - "8080:8080"
+      - "5001:5001"
+      - "4001:4001"
+    volumes:
+      - "./export:/export"
+      - "./data/ipfs:/data/ipfs"
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ipfs.rule=HostRegexp(`ipfs.{domain:[a-z]+}.{tld:[a-z]+}`)
+      - traefik.http.services.ipfs.loadbalancer.server.port=5001
+networks:
+  traefik:
+    external: true
