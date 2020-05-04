@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  lmap:
+    container_name: lmap
+    image: allgreed/lmap
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lmap.rule=HostRegexp(`lmap.{domain:[a-z]+}.{tld:[a-z]+}`)
+networks:
+  traefik:
+    external: true
