@@ -4,6 +4,6 @@ services:
     container_name: instaloader
     volumes:
       - "~/instaloader:/download"
-      - "./il_args.txt:/il_args.txt"
-      - "./il_targets.txt:/il_targets.txt"
+      - "./args.txt:/il_args.txt"
+      - "./targets.txt:/il_targets.txt"
     image: didc/docker-instaloader
