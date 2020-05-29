@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.notebook.rule=HostRegexp(`notebook.{domain:[a-z]+}.{tld:[a-z]+}`)
+      - traefik.http.routers.notebook.rule=HostRegexp(`notebook.{domain:[a-z0-9.]+}`)
       - traefik.http.services.notebook.loadbalancer.server.port=8888
     networks:
       - traefik

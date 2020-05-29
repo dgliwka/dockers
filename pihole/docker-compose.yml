@@ -8,20 +8,24 @@ services:
       - 53:53/tcp
       - 53:53/udp
     environment:
-      TZ: "Europe/Warsaw"
+      ServerIP: 193.122.61.33
+      TZ: Europe/Warsaw
       WEBPASSWORD: ${WEBPASSWORD}
     volumes:
-      - "./config/etc-pihole/:/etc/pihole/"
-      - "./config/etc-dnsmasq.d/:/etc/dnsmasq.d/"
+      - data:/etc/pihole/
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.pihole.rule=HostRegexp(`pihole.{domain:[a-z]+}.{tld:[a-z]+}`)
+      - traefik.http.routers.pihole.rule=HostRegexp(`pihole.{domain:[a-z0-9.]+}`)
       - traefik.http.services.pihole.loadbalancer.server.port=80
     networks:
       - traefik
+
 networks:
   traefik:
     external: true
+
+volumes:
+  data:
