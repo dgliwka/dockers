@@ -1,16 +1,15 @@
-version: '3'
+version: "3"
+
 services:
   ouroboros:
     container_name: ouroboros
-    hostname: ouroboros
     image: pyouroboros/ouroboros
     environment:
-      - CLEANUP=true
-      - INTERVAL=60
-      - LOG_LEVEL=info
-      - SELF_UPDATE=true
-      #- IGNORE=mongo influxdb postgres mariadb
-      - TZ=Europe/Warsaw
+      CLEANUP: "true"
+      INTERVAL: 60
+      LOG_LEVEL: info
+      SELF_UPDATE: "true"
+      TZ: Europe/Warsaw
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

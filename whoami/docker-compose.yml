@@ -10,6 +10,7 @@ services:
     networks:
       - traefik
     restart: unless-stopped
+
 networks:
   traefik:
     external: true

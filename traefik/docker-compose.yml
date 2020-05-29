@@ -19,6 +19,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=HostRegexp(`traefik.{domain:[a-z0-9.]+}`)
       - traefik.http.services.traefik.loadbalancer.server.port=8080
+
 networks:
   traefik:
     external: true

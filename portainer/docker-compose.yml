@@ -5,15 +5,17 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - data:/data
     image: portainer/portainer
     networks:
       - traefik
     labels:
       - traefik.enable=true
-      - traefik.http.routers.portainer.rule=HostRegexp(`portainer.{domain:[a-z0-9.]+{tld:[a-z]+}`)
+      - traefik.http.routers.portainer.rule=HostRegexp(`portainer.{domain:[a-z0-9.]+}`)
+
 volumes:
-  portainer_data:
+  data:
+
 networks:
   traefik:
     external: true

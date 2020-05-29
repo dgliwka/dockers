@@ -1,9 +1,12 @@
 version: "3.3"
+
 services:
-  docker-instaloader:
+  instaloader:
     container_name: instaloader
-    volumes:
-      - "~/instaloader:/download"
-      - "./args.txt:/il_args.txt"
-      - "./targets.txt:/il_targets.txt"
     image: didc/docker-instaloader
+    environment:
+      TZ: Europe/Warsaw
+    volumes:
+      - ~/instaloader:/download
+      - ./args.txt:/il_args.txt
+      - ./targets.txt:/il_targets.txt
