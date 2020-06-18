@@ -3,3 +3,4 @@ pihole/config
 ipfs/data
 ipfs/export
 ovpn/open
+acme.json
