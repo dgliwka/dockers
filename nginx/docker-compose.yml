@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  nginx-demo:
+  nginx:
     container_name: nginx
     image: nginxdemos/hello
     networks:
@@ -9,7 +9,6 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.nginx.rule=HostRegexp(`nginx.{domain:[a-z0-9.]+}`)
 
 networks:
   traefik:

@@ -5,20 +5,40 @@ services:
     image: traefik
     container_name: traefik
     command:
+      - --api=true
       - --api.insecure=true
       - --providers.docker=true
+      - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.$DOMAINNAME`)
       - --providers.docker.exposedByDefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.http.tls.certResolver=letsencrypt
+      ## staging ca server:
+      #- --certificatesResolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesResolvers.letsencrypt.acme.email=$EMAIL
+      - --certificatesResolvers.letsencrypt.acme.storage=/acme.json
+      - --certificatesResolvers.letsencrypt.acme.dnsChallenge.provider=digitalocean
+
     ports:
       - 80:80
+      - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./acme.json:/acme.json
     networks:
       - traefik
     restart: unless-stopped
+    environment:
+      - DO_AUTH_TOKEN=${DO_AUTH_TOKEN}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.rule=HostRegexp(`traefik.{domain:[a-z0-9.]+}`)
       - traefik.http.services.traefik.loadbalancer.server.port=8080
+      - traefik.http.routers.traefik-gui.tls.domains[0].main=$DOMAINNAME
+      - traefik.http.routers.traefik-gui.tls.domains[0].sans=*.$DOMAINNAME
+      - traefik.http.routers.traefik-gui.tls=true
+      - traefik.http.routers.traefik-gui.tls.certresolver=letsencrypt
 
 networks:
   traefik:

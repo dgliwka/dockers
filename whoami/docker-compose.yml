@@ -6,7 +6,6 @@ services:
     container_name: whoami
     labels:
       - traefik.enable=true
-      - traefik.http.routers.whoami.rule=HostRegexp(`whoami.{domain:[a-z0-9.]+}`)
     networks:
       - traefik
     restart: unless-stopped
