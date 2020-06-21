@@ -4,3 +4,4 @@ ipfs/data
 ipfs/export
 ovpn/open
 acme.json
+digitalocean.ini

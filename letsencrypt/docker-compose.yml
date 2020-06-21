@@ -1,0 +1,17 @@
+version: "2.1"
+
+services:
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    volumes:
+      - ./digitalocean.ini:/config/dns-conf/digitalocean.ini
+      - /etc/letsencrypt:/config/etc/letsencrypt
+    environment:
+      - TZ=Europe/Warsaw
+      - URL=${DOMAINNAME}
+      - VALIDATION=dns
+      - DNSPLUGIN=digitalocean
+      - STAGING=false
+      - EMAIL=${EMAIL}
+    restart: unless-stopped
