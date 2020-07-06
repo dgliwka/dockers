@@ -10,3 +10,4 @@ services:
       - ~/instaloader:/download
       - ./args.txt:/il_args.txt
       - ./targets.txt:/il_targets.txt
+      - ./session:/session
