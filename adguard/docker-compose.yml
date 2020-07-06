@@ -3,7 +3,7 @@ version: '2'
 services:
   adguard:
     container_name: adguard
-    image: adguard/adguardhome
+    image: adguard/adguardhome:edge
     volumes:
       - work:/opt/adguardhome/work
       - conf:/opt/adguardhome/conf
