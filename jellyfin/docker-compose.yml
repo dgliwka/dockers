@@ -1,0 +1,23 @@
+version: "2.1"
+
+services:
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: jellyfin
+    environment:
+      - TZ=Europe/Warsaw
+    volumes:
+      - config:/config
+      - ~/data:/data
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+    networks:
+      - traefik
+
+volumes:
+  config:
+
+networks:
+  traefik:
+    external: true
