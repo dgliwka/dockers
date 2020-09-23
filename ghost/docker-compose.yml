@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  ghost:
+    image: ghost:latest
+    container_name: ghost
+    restart: unless-stopped
+    environment:
+      - url=https://ghost.tygrys.me
+    volumes:
+      - config:/var/lib/ghost/content
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.ghost.loadbalancer.server.port=2368
+    networks:
+      - traefik
+
+volumes:
+  config:
+
+networks:
+  traefik:
+    external: true
