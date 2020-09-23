@@ -10,7 +10,7 @@ services:
       - TZ=Europe/Warsaw
     volumes:
       - config:/config
-      - ~/data/pobrane:/downloads
+      - ~/pobrane:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
