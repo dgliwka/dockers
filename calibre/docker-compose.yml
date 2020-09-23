@@ -1,0 +1,25 @@
+version: "2.1"
+services:
+  calibre:
+    image: linuxserver/calibre-web
+    container_name: calibre-web
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Europe/Warsaw
+    volumes:
+      - config:/config
+      - ~/data/books:/books
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.calibre.loadbalancer.server.port=8083
+    networks:
+      - traefik
+
+volumes:
+  config:
+
+networks:
+  traefik:
+    external: true
