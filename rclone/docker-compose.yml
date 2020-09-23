@@ -1,7 +1,7 @@
-version: "3.7"
+version: "3"
 
 services:
-  rclone: &template
+  rclone: 
     image: rclone/rclone:beta
     container_name: rclone
     volumes:
@@ -16,8 +16,21 @@ services:
     security_opt:
       - apparmor:unconfined
     restart: unless-stopped
-    command: "mount s1:seriale /data/seriale --allow-other --gid 1001 --uid 1001"
-  rclone2:
-    <<: *template
-    container_name: rclone2
-    command: "mount s2:cassad /data/filmy --allow-other --gid 1001 --uid 1001"
+    command: "mount data: /data \
+    --allow-other \
+    --transfers 1 \
+    --no-modtime \
+    --async-read=true \
+    --buffer-size 512M \
+    --fast-list \
+    --timeout 30m \
+    --dir-cache-time 6h \
+    --drive-chunk-size 64M \
+    --vfs-cache-max-age 72h \
+    --vfs-cache-mode off \
+    --vfs-cache-max-size 40G \
+    --vfs-read-chunk-size 4M \
+    --vfs-read-chunk-size-limit 1G \
+    --stats 1m \
+    --stats-one-line \
+    --log-level=INFO"
