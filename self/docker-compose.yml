@@ -1,0 +1,16 @@
+version: "3.3"
+
+services:
+  self:
+    container_name: self
+    image: dgliwka/self
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.self.rule=Host(`${DOMAINNAME}`)
+
+networks:
+  traefik:
+    external: true
