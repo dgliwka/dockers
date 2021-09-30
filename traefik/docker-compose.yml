@@ -8,7 +8,7 @@ services:
       - --api=true
       - --api.insecure=true
       - --providers.docker=true
-      - --providers.docker.defaultrule=HostHeader(`{{ index .Labels "com.docker.compose.service" }}.$DOMAINNAME`) || HostHeader(`{{ index .Labels "com.docker.compose.service" }}.$DOMAINNAME2`)
+      - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.$DOMAINNAME`)
       - --providers.docker.exposedByDefault=false
       - --entrypoints.web.address=:80
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
@@ -16,10 +16,12 @@ services:
       - --entrypoints.websecure.address=:443
       - --entrypoints.websecure.http.tls.certResolver=letsencrypt
       ## staging ca server:
-      #- --certificatesResolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+      # - --certificatesResolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
       - --certificatesResolvers.letsencrypt.acme.email=$EMAIL
       - --certificatesResolvers.letsencrypt.acme.storage=/acme.json
-      - --certificatesResolvers.letsencrypt.acme.dnsChallenge.provider=digitalocean
+      - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
+      - --certificatesResolvers.letsencrypt.acme.dnschallenge.provider=digitalocean
+      - --certificatesResolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0
       - --log.level=DEBUG
 
     ports:
@@ -38,11 +40,9 @@ services:
       - traefik.http.services.traefik.loadbalancer.server.port=8080
       - traefik.http.routers.traefik-gui.tls.domains[0].main=$DOMAINNAME
       - traefik.http.routers.traefik-gui.tls.domains[0].sans=*.$DOMAINNAME
-      - traefik.http.routers.traefik-gui.tls.domains[1].sans=*.$DOMAINNAME2
-      - traefik.http.routers.traefik-gui.tls.domains[1].main=$DOMAINNAME2
       - traefik.http.routers.traefik-gui.tls=true
       - traefik.http.routers.traefik-gui.tls.certresolver=letsencrypt
 
-      networks:
+networks:
   traefik:
     external: true

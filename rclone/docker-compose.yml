@@ -18,19 +18,17 @@ services:
     restart: unless-stopped
     command: "mount data: /data \
     --allow-other \
-    --transfers 1 \
+    --allow-non-empty \
     --no-modtime \
-    --async-read=true \
-    --buffer-size 512M \
-    --fast-list \
+    --buffer-size 4M \
     --timeout 30m \
     --dir-cache-time 6h \
-    --drive-chunk-size 64M \
     --vfs-cache-max-age 72h \
-    --vfs-cache-mode off \
-    --vfs-cache-max-size 40G \
+    --vfs-cache-mode full \
+    --vfs-cache-max-size 10G \
     --vfs-read-chunk-size 4M \
     --vfs-read-chunk-size-limit 1G \
-    --stats 1m \
+    --vfs-write-back 1m \
+    --stats 10s \
     --stats-one-line \
     --log-level=INFO"

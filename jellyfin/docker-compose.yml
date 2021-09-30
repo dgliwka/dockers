@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin
+    image: jellyfin/jellyfin:10.6.1
     container_name: jellyfin
     environment:
       - PUID=1001
