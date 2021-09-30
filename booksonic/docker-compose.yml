@@ -1,0 +1,25 @@
+version: "2.1"
+services:
+  booksonic:
+    image: ghcr.io/linuxserver/booksonic
+    container_name: booksonic
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - config:/config
+      - ~/data/audiobooki:/audiobooks
+      - ~/data/podcasty:/podcasts
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+    networks:
+      - traefik
+
+volumes:
+  config:
+
+networks:
+  traefik:
+    external: true
