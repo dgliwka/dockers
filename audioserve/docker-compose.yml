@@ -1,0 +1,23 @@
+version: "2.1"
+services:
+  audioserve:
+    image: izderadicka/audioserve
+    container_name: audioserve
+    environment:
+      - AUDIOSERVE_SHARED_SECRET={SECRET}
+      - VIRTUAL_HOST=audioserve.tygrys.me
+    volumes:
+      - ~/data/podcasty:/podcasts
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+    networks:
+      - traefik
+    command: "/podcasts"
+
+volumes:
+  config:
+
+networks:
+  traefik:
+    external: true
