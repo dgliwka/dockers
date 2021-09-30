@@ -1,0 +1,22 @@
+version: "3.1"
+services:
+  mealie:
+    container_name: mealie
+    image: hkotel/mealie:latest
+    environment:
+      db_type: sqlite
+      TZ: Europe/Warsaw
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+    networks:
+      - traefik
+    volumes:
+      - config:/app/data
+
+networks:
+  traefik:
+    external: true
+
+volumes:
+  config:
