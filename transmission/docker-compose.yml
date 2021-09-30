@@ -1,0 +1,31 @@
+---
+version: "2.1"
+services:
+  transmission:
+    image: ghcr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - USER=${USER} #optional
+      - PASS=${PASS} #ptional
+    volumes:
+      - config:/config
+      - ~/data/downloads:/downloads
+    ports:
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.transmission.loadbalancer.server.port=9091
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
+
+volumes:
+  config:
